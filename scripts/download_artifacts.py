@@ -186,7 +186,7 @@ class GitHubArtifactDownloader:
                     continue
                 
                 # Apply name filter if specified
-                if artifact_filter and artifact_filter not in artifact_name:
+                if artifact_filter and artifact_filter.lower() not in artifact_name.lower():
                     continue
                 
                 # Only get the latest version of each artifact
@@ -226,6 +226,15 @@ class GitHubArtifactDownloader:
         print(f"📝 Metadata saved to: {metadata_path}")
 
 
+def ensure_directory(path: Path):
+    """Create directory if it doesn't exist."""
+    if not path.exists():
+        print(f"📁 Creating directory: {path}")
+        path.mkdir(parents=True, exist_ok=True)
+    else:
+        print(f"📁 Directory already exists: {path}")
+
+
 def main():
     """Main execution function."""
     print("🚀 GitHub Artifact Downloader")
@@ -241,22 +250,31 @@ def main():
     artifact_filter = os.environ.get("ARTIFACT_NAME", "")
     target_folder = os.environ.get("TARGET_FOLDER", "downloaded-artifacts")
     
-    # Create target directory
+    # نمایش اطلاعات پیکربندی
+    print(f"📦 Source Repository: {source_repo}")
+    print(f"📁 Target Folder: {target_folder}")
+    if artifact_filter:
+        print(f"🎯 Artifact Filter: {artifact_filter}")
+    print()
+    
+    # Create target directory (with guarantee)
     target_path = Path(target_folder)
-    target_path.mkdir(parents=True, exist_ok=True)
+    ensure_directory(target_path)
     
     # Initialize downloader
     downloader = GitHubArtifactDownloader(github_token, source_repo)
     
     # Get latest artifacts
     print(f"\n🔍 Searching for artifacts in: {source_repo}")
-    if artifact_filter:
-        print(f"🎯 Filtering for artifact name containing: {artifact_filter}")
     
     artifacts_data = downloader.get_latest_artifacts(artifact_filter if artifact_filter else None)
     
     if not artifacts_data:
         print("⚠️ No artifacts found matching the criteria")
+        # Create a .gitkeep file to keep the empty folder in git
+        gitkeep_path = target_path / ".gitkeep"
+        gitkeep_path.touch()
+        print(f"📝 Created .gitkeep in empty folder")
         return
     
     print(f"\n📦 Found {len(artifacts_data)} artifact(s) to download")
