@@ -1,13 +1,13 @@
 name: Download and Upload Latest Artifacts
 
 on:
-  # اجرای دستی
+  # اجرای دستی با پارامترهای قابل تنظیم
   workflow_dispatch:
     inputs:
       source_repo:
         description: 'Source repository (owner/repo)'
         required: true
-        default: 'owner/repository-name'
+        default: 'therealaleph/MasterHttpRelayVPN-RUST'  # نام ریپازیتوری منبع را اینجا وارد کنید
         type: string
       artifact_name:
         description: 'Specific artifact name (leave empty for all artifacts)'
@@ -24,7 +24,7 @@ on:
   schedule:
     - cron: '0 */6 * * *'
   
-  # اجرا روی push به main (اختیاری)
+  # اجرا روی push به main (اختیاری - می‌توانید پاک کنید)
   push:
     branches:
       - main
@@ -36,14 +36,15 @@ jobs:
     runs-on: ubuntu-latest
     
     permissions:
-      contents: write
-      actions: read
+      contents: write  # برای push کردن تغییرات
+      actions: read    # برای خواندن اطلاعات workflow
     
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0  # دریافت کامل تاریخچه git
       
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -55,27 +56,101 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
       
+      - name: Create target folder if not exists
+        run: |
+          # اگر پوشه مقصد وجود نداشت، ایجاد شود
+          TARGET_DIR="${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}"
+          if [ ! -d "$TARGET_DIR" ]; then
+            echo "📁 Creating target folder: $TARGET_DIR"
+            mkdir -p "$TARGET_DIR"
+          else
+            echo "📁 Target folder already exists: $TARGET_DIR"
+          fi
+        shell: bash
+      
       - name: Download and extract artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SOURCE_REPO: ${{ github.event.inputs.source_repo || 'owner/repository-name' }}
+          SOURCE_REPO: ${{ github.event.inputs.source_repo || 'therealaleph/MasterHttpRelayVPN-RUST' }}  # نام ریپازیتوری منبع پیش‌فرض
           ARTIFACT_NAME: ${{ github.event.inputs.artifact_name || '' }}
           TARGET_FOLDER: ${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}
         run: |
+          # ایجاد پوشه scripts اگر وجود نداشت
+          if [ ! -d "scripts" ]; then
+            mkdir -p scripts
+          fi
+          
+          # اجرای اسکریپت پایتون
           python scripts/download_artifacts.py
+        shell: bash
+      
+      - name: Verify downloaded files
+        run: |
+          TARGET_DIR="${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}"
+          echo "📊 Downloaded files statistics:"
+          echo "================================"
+          
+          if [ -d "$TARGET_DIR" ]; then
+            # نمایش تعداد فایل‌ها و پوشه‌ها
+            echo "📁 Total folders: $(find "$TARGET_DIR" -type d | wc -l)"
+            echo "📄 Total files: $(find "$TARGET_DIR" -type f | wc -l)"
+            echo "💾 Total size: $(du -sh "$TARGET_DIR" | cut -f1)"
+            echo ""
+            echo "📋 Folder structure:"
+            tree -L 2 "$TARGET_DIR" 2>/dev/null || find "$TARGET_DIR" -maxdepth 2 -type f -o -type d | head -20
+          else
+            echo "⚠️ Target folder not found: $TARGET_DIR"
+          fi
+        shell: bash
+      
+      - name: Create .gitkeep if folder is empty
+        run: |
+          TARGET_DIR="${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}"
+          
+          # اگر پوشه خالی است، یک فایل .gitkeep ایجاد کن
+          if [ -d "$TARGET_DIR" ] && [ -z "$(ls -A "$TARGET_DIR")" ]; then
+            echo "📝 Folder is empty, creating .gitkeep"
+            touch "$TARGET_DIR/.gitkeep"
+          fi
+        shell: bash
       
       - name: Commit and push changes
         run: |
+          # تنظیم اطلاعات کاربری git
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Add all changes
-          git add .
+          # دریافت نام ریپازیتوری منبع برای پیام commit
+          SOURCE_REPO="${{ github.event.inputs.source_repo || 'owner/repository-name' }}"
+          TARGET_DIR="${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}"
           
-          # Check if there are changes to commit
+          # اضافه کردن همه تغییرات
+          git add "$TARGET_DIR"
+          git add scripts/  # اگر اسکریپت‌ها تغییر کرده باشند
+          
+          # بررسی اینکه آیا تغییری وجود دارد
           if git diff --staged --quiet; then
-            echo "No changes to commit"
+            echo "✅ No changes to commit"
           else
-            git commit -m "🔄 Update downloaded artifacts from ${{ env.SOURCE_REPO }}"
-            git push
-          
+            # ایجاد پیام commit با زمان و اطلاعات
+            COMMIT_MSG="🔄 Update artifacts from $SOURCE_REPO - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            echo "📝 Commit message: $COMMIT_MSG"
+            
+            git commit -m "$COMMIT_MSG"
+            git push origin main
+            echo "✅ Changes pushed successfully"
+          fi
+        shell: bash
+      
+      - name: Summary
+        if: always()
+        run: |
+          echo "==================================="
+          echo "📊 Workflow Summary"
+          echo "==================================="
+          echo "🕐 Time: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo "📦 Source: ${{ github.event.inputs.source_repo || 'owner/repository-name' }}"
+          echo "📁 Target: ${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}"
+          echo "🎯 Filter: ${{ github.event.inputs.artifact_name || 'All artifacts' }}"
+          echo "✅ Status: ${{ job.status }}"
+        shell: bash
