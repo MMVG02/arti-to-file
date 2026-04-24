@@ -1,0 +1,16 @@
+{
+  "source_repositories": [
+    {
+      "name": "therealaleph/MasterHttpRelayVPN-RUST",
+      "artifact_filter": "build",
+      "enabled": true,
+      "description": "Main build artifacts"
+    }
+  ],
+  "settings": {
+    "max_artifacts_per_run": 15,
+    "retry_attempts": 3,
+    "clean_old_artifacts": true,
+    "max_age_hours": 72
+  }
+}
