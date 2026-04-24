@@ -1,0 +1,81 @@
+name: Download and Upload Latest Artifacts
+
+on:
+  # اجرای دستی
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: 'Source repository (owner/repo)'
+        required: true
+        default: 'owner/repository-name'
+        type: string
+      artifact_name:
+        description: 'Specific artifact name (leave empty for all artifacts)'
+        required: false
+        default: ''
+        type: string
+      target_folder:
+        description: 'Target folder in your repository'
+        required: false
+        default: 'downloaded-artifacts'
+        type: string
+  
+  # اجرای زمان‌بندی شده (هر 6 ساعت)
+  schedule:
+    - cron: '0 */6 * * *'
+  
+  # اجرا روی push به main (اختیاری)
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/download-artifacts.yml'
+
+jobs:
+  download-and-upload-artifacts:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      actions: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+      
+      - name: Download and extract artifacts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SOURCE_REPO: ${{ github.event.inputs.source_repo || 'owner/repository-name' }}
+          ARTIFACT_NAME: ${{ github.event.inputs.artifact_name || '' }}
+          TARGET_FOLDER: ${{ github.event.inputs.target_folder || 'downloaded-artifacts' }}
+        run: |
+          python scripts/download_artifacts.py
+      
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          # Add all changes
+          git add .
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🔄 Update downloaded artifacts from ${{ env.SOURCE_REPO }}"
+            git push
+          
