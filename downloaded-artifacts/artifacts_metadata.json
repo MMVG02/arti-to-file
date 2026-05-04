@@ -1,125 +1,125 @@
 {
   "source_repository": "therealaleph/MasterHttpRelayVPN-RUST",
-  "download_timestamp": "2026-05-03T19:06:44.265930+00:00",
+  "download_timestamp": "2026-05-04T03:37:28.526698+00:00",
   "artifacts": [
     {
-      "name": "mhrv-rs-linux-arm64",
-      "size_bytes": 1940024,
-      "created_at": "2026-05-03T13:14:34Z",
+      "name": "mhrv-rs-linux-amd64",
+      "size_bytes": 8569549,
+      "created_at": "2026-05-04T01:01:03Z",
       "workflow_run": {
-        "id": 25279818415,
+        "id": 25295610872,
         "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
-      }
-    },
-    {
-      "name": "mhrv-rs-openwrt-mipsel-softfloat",
-      "size_bytes": 2077404,
-      "created_at": "2026-05-03T13:12:54Z",
-      "workflow_run": {
-        "id": 25279818415,
-        "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
-      }
-    },
-    {
-      "name": "mhrv-rs-linux-musl-amd64",
-      "size_bytes": 2149165,
-      "created_at": "2026-05-03T13:12:53Z",
-      "workflow_run": {
-        "id": 25279818415,
-        "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
-      }
-    },
-    {
-      "name": "mhrv-rs-linux-musl-arm64",
-      "size_bytes": 1993994,
-      "created_at": "2026-05-03T13:10:28Z",
-      "workflow_run": {
-        "id": 25279818415,
-        "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
-      }
-    },
-    {
-      "name": "mhrv-rs-android-universal",
-      "size_bytes": 81348966,
-      "created_at": "2026-05-03T13:09:05Z",
-      "workflow_run": {
-        "id": 25279818415,
-        "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
-      }
-    },
-    {
-      "name": "mhrv-rs-windows-amd64",
-      "size_bytes": 7304121,
-      "created_at": "2026-05-03T13:08:32Z",
-      "workflow_run": {
-        "id": 25279818415,
-        "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
       }
     },
     {
       "name": "mhrv-rs-raspbian-armhf",
-      "size_bytes": 1840529,
-      "created_at": "2026-05-03T13:08:14Z",
+      "size_bytes": 1841148,
+      "created_at": "2026-05-04T00:58:44Z",
       "workflow_run": {
-        "id": 25279818415,
+        "id": 25295610872,
         "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
       }
     },
     {
-      "name": "mhrv-rs-linux-amd64",
-      "size_bytes": 8567078,
-      "created_at": "2026-05-03T13:05:02Z",
+      "name": "mhrv-rs-android-universal",
+      "size_bytes": 81349931,
+      "created_at": "2026-05-04T00:55:51Z",
       "workflow_run": {
-        "id": 25279818415,
+        "id": 25295610872,
         "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
+      }
+    },
+    {
+      "name": "mhrv-rs-linux-arm64",
+      "size_bytes": 1940589,
+      "created_at": "2026-05-04T00:55:15Z",
+      "workflow_run": {
+        "id": 25295610872,
+        "name": "release",
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
+      }
+    },
+    {
+      "name": "mhrv-rs-windows-amd64",
+      "size_bytes": 7304415,
+      "created_at": "2026-05-04T00:53:49Z",
+      "workflow_run": {
+        "id": 25295610872,
+        "name": "release",
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
+      }
+    },
+    {
+      "name": "mhrv-rs-linux-musl-arm64",
+      "size_bytes": 1993874,
+      "created_at": "2026-05-04T00:52:47Z",
+      "workflow_run": {
+        "id": 25295610872,
+        "name": "release",
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
+      }
+    },
+    {
+      "name": "mhrv-rs-linux-musl-amd64",
+      "size_bytes": 2148512,
+      "created_at": "2026-05-04T00:50:08Z",
+      "workflow_run": {
+        "id": 25295610872,
+        "name": "release",
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
       }
     },
     {
       "name": "mhrv-rs-macos-arm64",
-      "size_bytes": 10905125,
-      "created_at": "2026-05-03T13:02:25Z",
+      "size_bytes": 10903541,
+      "created_at": "2026-05-04T00:49:46Z",
       "workflow_run": {
-        "id": 25279818415,
+        "id": 25295610872,
         "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
       }
     },
     {
       "name": "mhrv-rs-macos-amd64",
-      "size_bytes": 11833077,
-      "created_at": "2026-05-03T13:01:39Z",
+      "size_bytes": 11833632,
+      "created_at": "2026-05-04T00:49:26Z",
       "workflow_run": {
-        "id": 25279818415,
+        "id": 25295610872,
         "name": "release",
-        "created_at": "2026-05-03T12:57:57Z",
-        "head_branch": "v1.9.8",
-        "head_sha": "677ec26bee73c0f89220566af477a0a5b0a1564e"
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
+      }
+    },
+    {
+      "name": "mhrv-rs-openwrt-mipsel-softfloat",
+      "size_bytes": 2078534,
+      "created_at": "2026-05-04T00:47:42Z",
+      "workflow_run": {
+        "id": 25295610872,
+        "name": "release",
+        "created_at": "2026-05-04T00:44:25Z",
+        "head_branch": "v1.9.9",
+        "head_sha": "49b6fbfae721e9f677a611f84289959e8d7a43e4"
       }
     }
   ]
