@@ -1,6 +1,6 @@
 {
   "source_repository": "therealaleph/MasterHttpRelayVPN-RUST",
-  "download_timestamp": "2026-05-07T03:35:02.302527+00:00",
+  "download_timestamp": "2026-05-07T08:41:01.794058+00:00",
   "artifacts": [
     {
       "name": "mhrv-rs-openwrt-mipsel-softfloat",
