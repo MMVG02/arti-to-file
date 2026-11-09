@@ -1,6 +1,6 @@
 {
   "source_repository": "therealaleph/MasterHttpRelayVPN-RUST",
-  "download_timestamp": "2026-11-09T05:26:58.283273+00:00",
+  "download_timestamp": "2026-11-09T15:41:01.835128+00:00",
   "artifacts": [
     {
       "name": "mhrv-rs-linux-amd64",
@@ -54,18 +54,6 @@
       "name": "mhrv-rs-raspbian-armhf",
       "size_bytes": 2649745,
       "created_at": "2026-10-12T18:19:18Z",
-      "workflow_run": {
-        "id": 38289905792,
-        "name": "release",
-        "created_at": "2026-10-12T18:17:26Z",
-        "head_branch": "v1.9.38",
-        "head_sha": "cdf5cc7b4ac799aabf8405d62cb1cefff9b63ecf"
-      }
-    },
-    {
-      "name": "mhrv-rs-macos-amd64",
-      "size_bytes": 14256545,
-      "created_at": "2026-10-12T18:24:06Z",
       "workflow_run": {
         "id": 38289905792,
         "name": "release",
